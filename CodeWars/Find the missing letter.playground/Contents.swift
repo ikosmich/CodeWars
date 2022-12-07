@@ -18,7 +18,7 @@ import UIKit
 //I have also created other katas. Take a look if you enjoyed this kata!
 
 func findMissingLetter(_ chArr: [Character]) -> Character {
-  let alphabetLowerCased: [Character] = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+    let alphabetLowerCased: [Character] = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
     let alphabetUpperCases: [Character] = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
     if chArr[0].isLowercase {
         let firstCharIndex = alphabetLowerCased.firstIndex(of: chArr[0]) ?? 0
