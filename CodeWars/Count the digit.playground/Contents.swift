@@ -9,7 +9,6 @@ import UIKit
 //Call nb_dig (or nbDig or ...) the function taking n and d as parameters and returning this count.
 
 
-
 func nbDig(_ n: Int, _ d: Int) -> Int {
   (0...n).map({String($0*$0)})
                       .joined()
