@@ -9,3 +9,4 @@ func findNb(_ number: Int) -> Int {
     }
     return n == 0 ? count - 1 : -1
 }
+
