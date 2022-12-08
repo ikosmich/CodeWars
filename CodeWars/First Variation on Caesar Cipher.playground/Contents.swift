@@ -80,8 +80,10 @@ func codedStringDevide(_ string: String) -> [String] {
         }
     }
     resultArr.append(Substring(str))
-    if !(resultArr.count == 5) {
+    if resultArr.count < 5 {
         resultArr.append("")
+    } else if resultArr.count > 5 {
+        resultArr.removeLast()
     }
     return resultArr.map { String($0) }
 }
@@ -135,11 +137,6 @@ func demovingShift(_ arr: [String], _ shift: Int) -> String {
     }
     return decodedStringArray.joined()
 }
-
-print(movingShift("O CAPTAIN! my Captain! our fearful trip is done;", 10))
-print(demovingShift(["Y ONDIQZF!", " hu Azpucl", "r! vca qqn", "fukc mldl ", "gr eqqi;"], 1))
-print(movingShift("I should have known that you would have a perfect answer for me!!!", 1))
-print(demovingShift([" xscOp", "zvygqA", "ftuwud", "adaxmh", "Edqrut"], 26))
 
 
 
