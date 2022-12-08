@@ -42,7 +42,7 @@ import UIKit
 
 
 let alphabetArr = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
-let signsArr: [Character] = [".",",","?","!"," ",";"]
+let signsArr = "][.,?! ;-_+=-1234567890{}".map { Character(extendedGraphemeClusterLiteral: $0) }
  
 func indexLimiter(_ overIndex: Int) -> Int {
     var temp = overIndex - 26
@@ -51,39 +51,40 @@ func indexLimiter(_ overIndex: Int) -> Int {
     }
     return temp
 }
- 
-func codedStringDevide(_ string: String) -> [String] {
-  var str = string
-  var resultArr: [Substring] = []
-  let reminderOfTheDevision = string.count % 5
-  for _ in str {
-    if reminderOfTheDevision == 0 {
-      while !str.isEmpty {
-        resultArr.append(str.prefix(string.count/5))
-        str.removeFirst(string.count/5)
-      }
-      break
-    } else {
-        repeat {
-          resultArr.append(str.prefix(string.count/5))
-          str.removeFirst(string.count/5)
-        } while str.count >= string.count/5
-      break
+
+func indexLimiterDecode(_ overIndex: Int) -> Int {
+    var temp = 26 + overIndex
+    while temp < 0 {
+      temp = indexLimiterDecode(temp)
     }
-  }
-  if resultArr.count > 5 {
-    while !resultArr[resultArr.count - 1].isEmpty {
-      for char in resultArr[resultArr.count - 1] {
-       
-      }
-    }
-  }
- 
-  resultArr.append(Substring(str))
-  return resultArr.map { String($0) }
+    return temp
 }
- 
-print(codedStringDevide("j vltasl rlhr zdfog odxr ypw atasl rlhr p gwkzzyq zntyhv lvz wp!!!fdgfdg fdgdfg fdgdfg fdgd fgdfg"))
+
+func codedStringDevide(_ string: String) -> [String] {
+    var str = string
+    var resultArr: [Substring] = []
+    let lengthOfFirstFour = string.count / 5
+    for _ in str {
+        if string.count % 5 == 0 {
+            while !str.isEmpty {
+                resultArr.append(str.prefix(string.count/5))
+                str.removeFirst(string.count/5)
+            }
+            break
+        } else {
+            while str.count > lengthOfFirstFour {
+                resultArr.append(str.prefix(lengthOfFirstFour + 1))
+                str.removeFirst(lengthOfFirstFour + 1)
+            }
+            break
+        }
+    }
+    resultArr.append(Substring(str))
+    if !(resultArr.count == 5) {
+        resultArr.append("")
+    }
+    return resultArr.map { String($0) }
+}
  
 func movingShift(_ s: String, _ shift: Int) -> [String] {
     var codedString = ""
@@ -106,8 +107,39 @@ func movingShift(_ s: String, _ shift: Int) -> [String] {
             continue
         }
     }
-    return [codedString]
+    return codedStringDevide(codedString)
 }
+
+func demovingShift(_ arr: [String], _ shift: Int) -> String {
+    var decodedStringArray: [String] = []
+    var currentShift = shift
+    for word in arr {
+        for character in word {
+            if signsArr.contains(character) {
+                decodedStringArray.append(String(character))
+                currentShift += 1
+                continue
+            }
+            var characterIndexInAlphabet = (Int(alphabetArr.firstIndex(of: String(character).lowercased())!) - currentShift)
+            if (0...25).contains(characterIndexInAlphabet) {
+                character.isUppercase ? (decodedStringArray.append(alphabetArr[characterIndexInAlphabet].uppercased())) : (decodedStringArray.append(alphabetArr[characterIndexInAlphabet]))
+                currentShift += 1
+                continue
+            } else if characterIndexInAlphabet < 0 {
+                characterIndexInAlphabet = indexLimiterDecode(characterIndexInAlphabet)
+                character.isUppercase ? (decodedStringArray.append(alphabetArr[characterIndexInAlphabet].uppercased())) : (decodedStringArray.append(alphabetArr[characterIndexInAlphabet]))
+                currentShift += 1
+                continue
+            }
+        }
+    }
+    return decodedStringArray.joined()
+}
+
+print(movingShift("O CAPTAIN! my Captain! our fearful trip is done;", 10))
+print(demovingShift(["Y ONDIQZF!", " hu Azpucl", "r! vca qqn", "fukc mldl ", "gr eqqi;"], 1))
+print(movingShift("I should have known that you would have a perfect answer for me!!!", 1))
+print(demovingShift([" xscOp", "zvygqA", "ftuwud", "adaxmh", "Edqrut"], 26))
 
 
 
