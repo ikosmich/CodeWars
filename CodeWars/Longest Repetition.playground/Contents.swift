@@ -6,6 +6,7 @@ import Foundation
 //For empty string return:
 //["": 0]
 
+
 func longestRepetition(_ s: String) -> [String: Int] {
     guard !s.isEmpty else { return ["": 0] }
     let charArr = s.map { $0 }
